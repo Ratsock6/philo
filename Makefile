@@ -5,7 +5,9 @@ CC := clang
 
 SRC := src/main.c \
 		src/parsing.c \
-		src/utils/ft_atoul.c
+		src/init.c \
+		src/utils/ft_atoul.c \
+		src/utils/time.c
 OBJ := $(SRC:.c=.o)
 
 %.o:		%.c

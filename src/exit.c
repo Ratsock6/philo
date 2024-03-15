@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 01:07:46 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/15 16:33:03 by aallou-v         ###   ########.fr       */
+/*   Created: 2024/03/14 10:12:10 by aallou-v          #+#    #+#             */
+/*   Updated: 2024/03/15 17:59:05 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void    ft_exit(t_core *core)
 {
-	t_core	core;
-	char	*error;
-
-	error = parsing(argc, argv, &core);
-	if (error)
-	{
-		ft_putendl_fd(error, 2);
-		return (0);
-	}
-	init_philo(&core);
-	
+	free(core->philo);
 }

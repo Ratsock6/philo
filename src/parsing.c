@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 20:07:28 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/02/24 19:41:05 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:28:16 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,17 @@ char	*parsing(int argc, char **argv, t_core *core)
 		if (!ft_isonly(argv[i], "0123456789"))
 			return ("Invalide Argument");
 	}
-	core->n_philo = ft_atoul(argv[1]);
-	if (core->n_philo <= 1)
-		return ("Number of philosophers incorrect ! (retard)");
-	core->t_died = ft_atoul(argv[2]);
-	core->t_eat = ft_atoul(argv[3]);
-	core->t_sleep = ft_atoul(argv[4]);
+	core->arg.n_philo = ft_atoul(argv[1]);
+	if (core->arg.n_philo < 1 || core->arg.n_philo > 200)
+		return ("Number of philosophers incorrect !");
+	core->arg.t_die = ft_atoul(argv[2]);
+	core->arg.t_eat = ft_atoul(argv[3]);
+	core->arg.t_sleep = ft_atoul(argv[4]);
+	core->arg.n_eat = -1;
 	if (argc == 6)
-	{
-		core->is_limit = true;
-		core->n_eat = ft_atoul(argv[5]);
-	}
+		core->arg.n_eat = ft_atoul(argv[5]);
+	core->philo = ft_calloc(core->arg.n_philo, sizeof(t_philo));
+	if (!core->philo)
+		return ("Malloc Error (core->philo)");
 	return (NULL);
 }
