@@ -6,13 +6,13 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:34:03 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/15 17:36:45 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:35:50 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	actual_time(void)
+long	get_actual_time(void)
 {
 	long int			time;
 	struct timeval		current_time;
@@ -26,5 +26,5 @@ long	actual_time(void)
 
 long	get_time(t_core *core)
 {
-	return (actual_time() - core->arg.start_t);
+	return (get_actual_time() - core->arg.start_t);
 }

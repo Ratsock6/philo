@@ -4,6 +4,8 @@ CFLAGS := -Wall -Wextra -Werror -Iinclude
 CC := clang
 
 SRC := src/main.c \
+		src/philo.c \
+		src/philo_utils.c \
 		src/parsing.c \
 		src/init.c \
 		src/utils/ft_atoul.c \
