@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 01:07:46 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/19 15:18:11 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 22:59:26 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ int	main(int argc, char **argv)
 	if (error)
 	{
 		ft_putendl_fd(error, 2);
-		return (0);
+		return (1);
 	}
 	init_philo(&core);
 	if (!start(&core))
 	{
 		ft_putendl_fd("Create Thread Error !", 2);
-		return (0);
+		ft_exit(&core);
+		return (1);
 	}
-	
+	ft_exit(&core);
+	return (0);
 }

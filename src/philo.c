@@ -6,11 +6,57 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:23:40 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/19 18:33:20 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:27:24 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+bool	is_alone(t_philo *philo)
+{
+	bool	is_alone;
+
+	is_alone = false;
+	pthread_mutex_lock(&philo->core->arg.m_check);
+	if (philo->core->arg.n_philo == 1)
+	{
+		is_alone = true;
+		philo_print(philo, THINK);
+		philo_print(philo, FORK);
+		usleep(philo->core->arg.t_die * 1000);
+		philo_print(philo, DEAD);
+	}
+	pthread_mutex_unlock(&philo->core->arg.m_check);
+	return (is_alone);
+}
+
+void	check(t_core *core)
+{
+	size_t	i;
+
+	pthread_mutex_lock(&core->arg.m_check);
+	i = -1;
+	while (++i < core->arg.n_philo)
+	{
+		if (!core->philo[i].is_finish)
+		{
+			pthread_mutex_unlock(&core->arg.m_check);
+			return ;
+		}
+	}
+	core->arg.finish = true;
+	pthread_mutex_unlock(&core->arg.m_check);
+}
+
+bool	is_finish(t_philo *philo)
+{
+	bool	is_finish;
+
+	pthread_mutex_lock(&philo->core->arg.m_finish);
+	is_finish = philo->core->arg.finish;
+	pthread_mutex_unlock(&philo->core->arg.m_finish);
+	return (is_finish);
+}
 
 void	*routine(void *data)
 {
@@ -18,25 +64,22 @@ void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	if (philo->id % 2 == 0)
-		usleep(philo->core->arg.t_eat / 10);
-	while (!check_death(philo, 0))
+		usleep(1000);
+	while (!is_finish(philo))
 	{
-		pthread_create(&philo->thread_death_id, NULL, is_dead, data);
-		activity(philo);
-		pthread_detach(philo->thread_death_id);
-		if ((int)++philo->nb_eat == philo->last_eat)
-		{
-			pthread_mutex_lock(&philo->core->arg.finish);
-			philo->is_finish = 1;
-			philo->core->arg.n_philo_finish++;
-			if (philo->core->arg.n_philo_finish == philo->core->arg.n_philo)
-			{
-				pthread_mutex_unlock(&philo->core->arg.finish);
-				check_death(philo, 2);
-			}
-			pthread_mutex_unlock(&philo->core->arg.finish);
+		if (is_alone(philo))
 			return (NULL);
-		}
+		if (is_dead(philo))
+			break ;
+		if (!is_dead(philo) && !philo->core->arg.finish)
+			take_fork(philo);
+		if (!is_dead(philo) && !philo->core->arg.finish)
+			eat(philo);
+		if (!is_dead(philo) && !philo->core->arg.finish)
+			sleep_think(philo);
+		if (!is_dead(philo) && !philo->core->arg.finish)
+			philo_print(philo, THINK);
+		check(philo->core);
 	}
 	return (NULL);
 }
@@ -53,8 +96,12 @@ int	start(t_core *core)
 			, &core->philo[i]);
 		if (check != 0)
 			return (0);
-		continue ;
+	}
+	i = 0;
+	while (i < core->arg.n_philo)
+	{
+		pthread_join(core->philo[i].thread_id, NULL);
+		i++;
 	}
 	return (1);
 }
-

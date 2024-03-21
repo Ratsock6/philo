@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:26:43 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/19 18:36:36 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:11:51 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	philo_print(t_philo *philo, t_states states)
 {
 	long	t;
 
-	pthread_mutex_lock(&philo->core->arg.write_mutex);
+	pthread_mutex_lock(&philo->core->arg.write);
 	t = get_time(philo->core);
 	if (!philo->is_finish)
 	{
@@ -31,33 +31,51 @@ void	philo_print(t_philo *philo, t_states states)
 		else if (states == DEAD)
 			printf("\e[31m%5li %3li died.\e[0m\n", t, philo->id);
 	}
-	pthread_mutex_unlock(&philo->core->arg.write_mutex);
+	pthread_mutex_unlock(&philo->core->arg.write);
 }
 
 
 void	sleep_think(t_philo *philo)
 {
-	philo_print(philo, SLEEP);
-	usleep(philo->core->arg.t_sleep);
-	philo_print(philo, THINK);
+	size_t	i;
+	
+	if (!is_dead(philo))
+	{
+		philo_print(philo, SLEEP);
+		pthread_mutex_lock(&philo->core->arg.time_wait);
+		i = philo->core->arg.t_sleep;
+		pthread_mutex_unlock(&philo->core->arg.time_wait);
+		philo_wait(philo, i);
+	}
 }
 
-void	activity(t_philo *philo)
+void	eat(t_philo *philo)
+{
+	size_t	i;
+
+	philo_print(philo, EAT);
+	pthread_mutex_lock(&philo->core->arg.time_wait);
+	pthread_mutex_lock(&philo->core->arg.m_check);
+	philo->nb_eat++;
+	if (philo->core->arg.n_eat != -1 && philo->nb_eat == philo->core->arg.n_eat)
+	{
+		if (!philo->is_finish)
+			philo->core->arg.n_philo_finish++;
+		philo->is_finish = true;
+	}
+	philo->last_eat = get_time(philo->core);
+	i = philo->core->arg.t_eat;
+	pthread_mutex_unlock(&philo->core->arg.time_wait);
+	pthread_mutex_unlock(&philo->core->arg.m_check);
+	philo_wait(philo, i);
+	pthread_mutex_unlock(&philo->left_f);
+	pthread_mutex_unlock(philo->right_f);
+}
+
+void	take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_f);
 	philo_print(philo, FORK);
-	if (!philo->right_f)
-	{
-		usleep(philo->core->arg.t_die * 2);
-		return ;
-	}
 	pthread_mutex_lock(philo->right_f);
 	philo_print(philo, FORK);
-	philo_print(philo, EAT);
-	philo->last_eat = get_actual_time();
-	pthread_mutex_unlock(&philo->core->arg.time_eat);
-	usleep(philo->core->arg.t_eat);
-	pthread_mutex_unlock(philo->right_f);
-	pthread_mutex_unlock(&philo->left_f);
-	sleep_think(philo);
 }

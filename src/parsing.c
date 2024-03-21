@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 20:07:28 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/14 11:28:16 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 22:39:42 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	**reformed(int argc, char **argv)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (++i < argc)
 	{
@@ -37,7 +37,7 @@ char	*parsing(int argc, char **argv, t_core *core)
 
 	if (argc < 5 || argc > 6)
 		return ("./philo <number_of_philo> <time_to_die> <time_to_eat> \
-					<time_to_sleep> [number_of_times_each_philo_must_eat]");
+<time_to_sleep> [number_of_times_each_philo_must_eat]");
 	argv = reformed(argc, argv);
 	i = 0;
 	while (++i < argc)

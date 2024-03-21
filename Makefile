@@ -10,7 +10,8 @@ SRC := src/main.c \
 		src/parsing.c \
 		src/init.c \
 		src/utils/ft_atoul.c \
-		src/utils/time.c
+		src/utils/time.c \
+		src/exit.c
 OBJ := $(SRC:.c=.o)
 
 %.o:		%.c

@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 16:39:00 by cjouenne          #+#    #+#             */
-/*   Updated: 2024/03/19 18:32:48 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:12:03 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@
 typedef struct s_arg
 {
 	size_t					n_philo;
-	size_t					n_eat;
-	size_t					t_die;
+	long					n_eat;
+	long					t_die;
 	size_t					t_eat;
 	size_t					t_sleep;
 	long					start_t;
-	pthread_mutex_t			write_mutex;
+	pthread_mutex_t			write;
 	pthread_mutex_t			dead;
-	pthread_mutex_t			time_eat;
-	pthread_mutex_t			finish;
+	pthread_mutex_t			time_wait;
+	pthread_mutex_t			m_finish;
+	pthread_mutex_t			m_check;
+	bool					finish;
 	size_t					n_philo_finish;
 	size_t					stop;
 }							t_arg;
@@ -43,12 +45,12 @@ typedef struct s_philo
 	pthread_mutex_t		*right_f;
 	pthread_mutex_t		left_f;
 	struct s_core		*core;	
-	long 				last_eat;
+	long				last_eat;
 	unsigned int		nb_eat;
 	bool				is_finish;
 }						t_philo;
 
-typedef struct  s_core
+typedef struct s_core
 {
 	struct s_philo	*philo;
 	struct s_arg	arg;
@@ -70,8 +72,12 @@ long	get_actual_time(void);
 long	get_time(t_core *core);
 int		start(t_core *core);
 void	philo_print(t_philo *philo, t_states states);
-int		check_death(t_philo *philo, size_t i);
-void	*is_dead(void	*data);
-void	activity(t_philo *philo);
+void	take_fork(t_philo *philo);
+void	eat(t_philo *philo);
+void	sleep_think(t_philo *philo);
+bool	is_dead(t_philo *philo);
+void	philo_wait(t_philo *philo, long wait_time);
+void	ft_exit(t_core *core);
+bool	is_alone(t_philo *philo);
 
 #endif

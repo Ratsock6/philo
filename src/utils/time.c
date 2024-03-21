@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:34:03 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/18 15:35:50 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:01:51 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,16 @@ long	get_actual_time(void)
 long	get_time(t_core *core)
 {
 	return (get_actual_time() - core->arg.start_t);
+}
+
+void	philo_wait(t_philo *philo, long wait_time)
+{
+	long	time_it_die;
+
+	time_it_die =  philo->core->arg.t_die - (get_time(philo->core)
+		- philo->last_eat);
+	if (time_it_die < wait_time)
+		wait_time = time_it_die;
+	if (0 < wait_time)
+		usleep(wait_time * 1000);
 }
