@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 16:39:00 by cjouenne          #+#    #+#             */
-/*   Updated: 2024/03/21 23:12:03 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:03:46 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_philo
 	long				last_eat;
 	unsigned int		nb_eat;
 	bool				is_finish;
+	char				*name;
 }						t_philo;
 
 typedef struct s_core
