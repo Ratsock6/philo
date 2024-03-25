@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 16:39:00 by cjouenne          #+#    #+#             */
-/*   Updated: 2024/03/22 16:03:46 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:15:00 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <stddef.h>
 # include <pthread.h>
 # include <sys/time.h>
+
+typedef struct s_fork
+{
+	pthread_mutex_t		mutex;
+	bool				available;
+}				t_fork;
 
 typedef struct s_arg
 {

@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:34:03 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/22 15:35:28 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:31:35 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ void	philo_wait(t_philo *philo, long wait_time)
 
 	time_it_die = philo->core->arg.t_die - (get_time(philo->core)
 			- philo->last_eat);
+	printf("TEST > %ld %ld\n", wait_time, time_it_die);
 	if (time_it_die < wait_time)
 		wait_time = time_it_die;
 	if (0 < wait_time)
+	{
+		printf("TEST > %ld\n", wait_time);
 		usleep(wait_time * 1000);
+	}
 }

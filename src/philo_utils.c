@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:26:43 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/22 17:18:18 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:22:49 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	philo_print(t_philo *philo, t_states states)
 			printf("\e[33m%5li Philosophers %9s[%3li] is thinking.\e[0m\n",
 				t, philo->name, philo->id);
 		else if (states == DEAD)
-			printf("\e[31m%5li Philosophers %10s[%3li]died.\e[0m\n",
+			printf("\e[31m%5li Philosophers %9s[%3li] died.\e[0m\n",
 				t, philo->name, philo->id);
 	}
 	pthread_mutex_unlock(&philo->core->arg.write);

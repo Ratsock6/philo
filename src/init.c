@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:12:05 by aallou-v          #+#    #+#             */
-/*   Updated: 2024/03/22 17:05:32 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:22:20 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_name(size_t id)
 	if (id == 6)
 		return ("tlegend");
 	if (id == 7)
-		return ("tkoubbi");
+		return ("ekoubbi");
 	if (id == 8)
 		return ("vsoltys");
 	if (id == 9)
